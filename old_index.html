@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rajwadi Riyasat | Premium Indian Marketplace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --amazon-orange: #ff9900;
+            --myntra-pink: #ff3f6c;
+            --dark-premium: #111111;
+            --card-surface: #ffffff;
+            --text-main: #282c3f;
+            --text-muted: #7e818c;
+            --whatsapp-green: #25d366;
+            --gold-accent: #b38b2d;
+            --bg-light: #f5f5f6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background-color: var(--dark-premium);
+            padding: 15px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .logo {
+            font-family: 'Cinzel', serif;
+            color: var(--gold-accent);
+            font-size: 1.6rem;
+            font-weight: 700;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .search-bar {
+            flex: 0.6;
+            display: flex;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .search-bar button {
+            background-color: var(--gold-accent);
+            border: none;
+            padding: 0 20px;
+            color: white;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .cart-icon {
+            color: white;
+            position: relative;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cart-count {
+            background-color: var(--myntra-pink);
+            color: white;
+            font-size: 0.75rem;
+            padding: 2px 7px;
+            border-radius: 50%;
+            position: absolute;
+            top: -12px;
+            left: 15px;
+        }
+
+        .hero-banner {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), #1a1a1a;
+            height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+
+        .hero-banner h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            color: var(--gold-accent);
+            margin-bottom: 5px;
+        }
+
+        .marketplace-container {
+            max-width: 1300px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: var(--card-surface);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #e0e0e0;
+        }
+
+        .badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: var(--myntra-pink);
+            color: white;
+            padding: 4px 10px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border-radius: 2px;
+            z-index: 10;
+        }
+
+        /* Large Display Main Photo */
+        .img-wrap {
+            width: 100%;
+            height: 480px;
+            background-color: #f9f9f9;
+        }
+
+        .img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.2s ease-in-out;
+        }
+
+        /* Marketplace Style Thumbnail Strips */
+        .thumbnail-container {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px;
+            background-color: #fafafa;
+            border-bottom: 1px solid #eee;
+        }
+
+        .thumb-img {
+            width: 55px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 4px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .thumb-img:hover, .thumb-img.active {
+            border-color: var(--myntra-pink);
+            transform: scale(1.05);
+        }
+
+        .product-details {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .brand-name {
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--gold-accent);
+            letter-spacing: 0.5px;
+        }
+
+        .title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin: 6px 0;
+        }
+
+        .price-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .current-price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #222;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .discount {
+            color: #ff905a;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .selector-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 10px;
+            color: var(--text-muted);
+        }
+
+        .size-select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: #fff;
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .actions-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: auto;
+        }
+
+        .btn-cart {
+            background-color: var(--amazon-orange);
+            color: black;
+            border: none;
+            padding: 14px;
+            font-weight: 700;
+            font-size: 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-cart:hover {
+            background-color: #e68a00;
+        }
+
+        .btn-insta {
+            background-color: var(--insta-pink);
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            padding: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 6px;
+        }
+
+        /* Cart Drawer Panels */
+        .cart-drawer {
+            position: fixed;
+            top: 0;
+            right: -450px;
+            width: 100%;
+            max-width: 420px;
+            height: 100%;
+            background: white;
+            box-shadow: -5px 0 25px rgba(0,0,0,0.2);
+            z-index: 2000;
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .cart-drawer.open {
+            right: 0;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+
+        .close-cart {
+            font-size: 1.5rem;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .cart-items-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 15px;
+            padding: 12px 0;
+            border-bottom: 1px solid #f5f5f5;
+            align-items: center;
+        }
+
+        .cart-item-img {
+            width: 60px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .cart-item-meta {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .cart-checkout-box {
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .btn-wa-checkout {
+            display: block;
+            width: 100%;
+            background-color: var(--whatsapp-green);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            padding: 14px;
+            font-weight: 700;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(37,211,102,0.3);
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1500;
+            display: none;
+        }
+
+        .overlay.visible {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="logo">RAJWADI RIYASAT</a>
+        <div class="search-bar">
+            <input type="text" placeholder="Search for Lehenga Choli, Wedding Collections...">
+            <button>Search</button>
+        </div>
+        <div class="nav-actions">
+            <div class="cart-icon" onclick="toggleCart(true)">
+                🛒 Shop Cart
+                <span class="cart-count" id="cartCount">0</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="hero-banner">
+        <h2>Premium Wedding Outfits</h2>
+        <p>A-One Quality Premium Collections — Swipe Views to See Angles</p>
+    </div>
+
+    <div class="container">
+        <div class="marketplace-container">
+            <div class="catalog-grid">
+
+                <div class="product-card">
+                    <span class="badge">BEST SELLER</span>
+                    <div class="img-wrap">
+                        <img id="main-red-view" src="https://i.ibb.co/tTyR5sLL/new1-jpeg.jpg" alt="Royal Red Lehenga">
+                    </div>
+
+                    <div class="thumbnail-container">
+                        <img class="thumb-img active" src="https://i.ibb.co/tTyR5sLL/new1-jpeg.jpg" onclick="changeImage('main-red-view', 'https://i.ibb.co/tTyR5sLL/new1-jpeg.jpg', this)">
+                        <img class="thumb-img" src="https://i.ibb.co/DXyGQy5/IMG-20260528-WA0009.jpg" onclick="changeImage('main-red-view', 'https://i.ibb.co/DXyGQy5/IMG-20260528-WA0009.jpg', this)">
+                        <img class="thumb-img" src="https://i.ibb.co/ZzXKnBbt/IMG-20260528-WA0010.jpg" onclick="changeImage('main-red-view', 'https://i.ibb.co/ZzXKnBbt/IMG-20260528-WA0010.jpg', this)">
+                    </div>
+
+                    <div class="product-details">
+                        <div class="brand-name">Rajwadi Exclusive</div>
+                        <div class="title">Designer Wedding Lehenga Choli - Royal Red</div>
+                        <div class="price-row">
+                            <span class="current-price">₹1,999</span>
+                            <span class="old-price">₹3,999</span>
+                            <span class="discount">(50% OFF)</span>
+                        </div>
+
+                        <div class="selector-label">Select Size:</div>
+                        <select class="size-select" id="size-red">
+                            <option value="M (Fully Stitched)">M (Stitched with L Margin)</option>
+                            <option value="XL (Fully Stitched)">XL (Stitched with 2XL Margin)</option>
+                        </select>
+
+                        <div class="actions-stack">
+                            <button class="btn-cart" onclick="addToCart('Lehenga Choli (Royal Red)', 1999, 'size-red', 'IMG-20260528-WA0013.jpg')">Add to Cart</button>
+                            <a href="https://www.instagram.com/rajwadi_riyasat_/" target="_blank" class="btn-insta">Order via Instagram DM</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <span class="badge" style="background:#b38b2d;">PREMIUM</span>
+                    <div class="img-wrap">
+                        <img id="main-blue-view" src="https://i.ibb.co/BJ7H42F/IMG-20260529-170213.png" alt="Navy Blue Lehenga">
+                    </div>
+
+                    <div class="thumbnail-container">
+                        <img class="thumb-img active" src="https://i.ibb.co/BJ7H42F/IMG-20260529-170213.png" onclick="changeImage('main-blue-view', 'https://i.ibb.co/BJ7H42F/IMG-20260529-170213.png', this)">
+                        <img class="thumb-img" src="https://i.ibb.co/cXY5bYXs/IMG-20260528-WA0007.jpg" onclick="changeImage('main-blue-view', 'https://i.ibb.co/cXY5bYXs/IMG-20260528-WA0007.jpg', this)">
+                        <img class="thumb-img" src="https://i.ibb.co/M5D8pGs3/IMG-20260528-WA0008.jpg" onclick="changeImage('main-blue-view', 'https://i.ibb.co/M5D8pGs3/IMG-20260528-WA0008.jpg', this)">
+                    </div>
+
+                    <div class="product-details">
+                        <div class="brand-name">Rajwadi Exclusive</div>
+                        <div class="title">Designer Wedding Lehenga Choli - Deep Navy Blue</div>
+                        <div class="price-row">
+                            <span class="current-price">₹1,999</span>
+                            <span class="old-price">₹3,999</span>
+                            <span class="discount">(50% OFF)</span>
+                        </div>
+
+                        <div class="selector-label">Select Size:</div>
+                        <select class="size-select" id="size-blue">
+                            <option value="M (Fully Stitched)">M (Stitched with L Margin)</option>
+                            <option value="XL (Fully Stitched)">XL (Stitched with 2XL Margin)</option>
+                        </select>
+
+                        <div class="actions-stack">
+                            <button class="btn-cart" onclick="addToCart('Lehenga Choli (Deep Navy Blue)', 1999, 'size-blue', 'IMG-20260528-WA0001.jpg')">Add to Cart</button>
+                            <a href="https://www.instagram.com/rajwadi_riyasat_/" target="_blank" class="btn-insta">Order via Instagram DM</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="cartOverlay" onclick="toggleCart(false)"></div>
+
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            <h3>My Shopping Cart</h3>
+            <span class="close-cart" onclick="toggleCart(false)">&times;</span>
+        </div>
+        <div class="cart-items-list" id="cartContent">
+            <p style="text-align:center; margin-top:40px; color:var(--text-muted);">Your cart is empty.</p>
+        </div>
+        <div class="cart-checkout-box">
+            <div class="total-row">
+                <span>Grand Total:</span>
+                <span id="cartTotalDisplay">₹0</span>
+            </div>
+            <a href="#" class="btn-wa-checkout" id="whatsappCheckoutBtn" onclick="sendOrderViaWhatsApp(event)">
+                Proceed to Checkout via WhatsApp
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Rajwadi Riyasat Marketplace.</p>
+    </footer>
+
+    <script>
+        let cart = [];
+
+        // Interactive function to swap main product showcase photo
+        function changeImage(mainImageId, nextSrc, thumbElement) {
+            const mainImg = document.getElementById(mainImageId);
+            mainImg.style.opacity = 0.3; // brief fade effect
+
+            setTimeout(() => {
+                mainImg.src = nextSrc;
+                mainImg.style.opacity = 1;
+            }, 150);
+
+            // Toggle active styling border class on thumbnails
+            const siblingThumbs = thumbElement.parentElement.getElementsByClassName('thumb-img');
+            for(let thumb of siblingThumbs) {
+                thumb.classList.remove('active');
+            }
+            thumbElement.classList.add('active');
+        }
+
+        function toggleCart(open) {
+            const drawer = document.getElementById('cartDrawer');
+            const overlay = document.getElementById('cartOverlay');
+            if(open) {
+                drawer.classList.add('open');
+                overlay.classList.add('visible');
+            } else {
+                drawer.classList.remove('open');
+                overlay.classList.remove('visible');
+            }
+        }
+
+        function addToCart(name, price, sizeElementId, imgUrl) {
+            const sizeSelector = document.getElementById(sizeElementId);
+            const selectedSize = sizeSelector.value;
+
+            cart.push({
+                name: name,
+                price: price,
+                size: selectedSize,
+                img: imgUrl
+            });
+
+            updateCartUI();
+            toggleCart(true);
+        }
+
+        function updateCartUI() {
+            const countBadge = document.getElementById('cartCount');
+            const contentContainer = document.getElementById('cartContent');
+            const totalContainer = document.getElementById('cartTotalDisplay');
+
+            countBadge.innerText = cart.length;
+
+            if(cart.length === 0) {
+                contentContainer.innerHTML = `<p style="text-align:center; margin-top:40px; color:var(--text-muted);">Your cart is empty.</p>`;
+                totalContainer.innerText = '₹0';
+                return;
+            }
+
+            let html = '';
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                total += item.price;
+                html += `
+                    <div class="cart-item">
+                        <img src="${item.img}" class="cart-item-img">
+                        <div class="cart-item-info">
+                            <div class="cart-item-title">${item.name}</div>
+                            <div class="cart-item-meta">Size: ${item.size}</div>
+                            <div class="cart-item-title" style="color:var(--gold-accent);">₹${item.price}</div>
+                        </div>
+                        <span style="cursor:pointer; color:red; font-weight:bold; padding:5px;" onclick="removeItem(${index})">&times;</span>
+                    </div>
+                `;
+            });
+
+            contentContainer.innerHTML = html;
+            totalContainer.innerText = '₹' + total
